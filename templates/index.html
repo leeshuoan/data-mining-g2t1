@@ -1,7 +1,136 @@
-{% extends "base.html" %} 
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %} Data Mining G2T1 {% endblock %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Electricity Consumption Prediction</title>
+</head>
 
-{%block content%}
-<h1>Data Mining G2T1</h1>
-{% endblock %}
+<body>
+  <div id="app">
+    <div class="m-5">
+      <div class="border w-50 p-4 m-auto">
+        <h2>Electricity Consumption Predictor</h2>
+        <p>Enter the following predictor variables and choose a model to start</p>
+        <h5 class="pt-2 text-success">Time Period</h5>
+        <div class="d-flex justify-content-between">
+          <div style="width: 45%;">
+            Year <br>
+            <select name="year" class="mb-1 w-100">
+              <option value="2022">2022</option>
+            </select>
+          </div>
+          <div style="width: 45%;">
+            Month <br>
+            <select name="month" class="mb-1 w-100">
+              <option v-for="month of months" :value="month">[[ month ]]</option>
+            </select>
+          </div>
+        </div>
+        <h5 class="pt-4 text-success">Weather</h5>
+        <div class="d-flex justify-content-between">
+          <div style="width: 45%;">
+            Total Daily Rainfall (mm) <br>
+            <input type="text" name="daily_rainfall" class="mb-1 w-100" value="0"><br>
+          </div>
+          <div style="width: 45%;">
+            Highest 30min rainfall (mm) <br>
+            <input type="text" name="30m_rainfall" class="mb-1 w-100" value="0"><br>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div style="width: 45%;">
+            Highest 60min rainfall (mm) <input type="text" name="60_rainfall" class="mb-1 w-100" value="0"><br>
+          </div>
+          <div style="width: 45%;">
+            Highest 120min rainfall (mm) <input type="text" name="120m_rainfall" class="mb-1 w-100" value="0"><br>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div style="width: 45%;">
+            Mean Temperature (°C) <input type="text" name="mean_temperature" class="mb-1 w-100" value="0"><br>
+          </div>
+          <div style="width: 45%;">
+            Maximum Temperature (°C) <input type="text" name="max_temperature" class="mb-1 w-100" value="0"><br>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div style="width: 45%;">
+            Minimum Temperature (°C) <input type="text" name="min_temperature" class="mb-1 w-100" value="0"><br>
+          </div>
+          <div style="width: 45%;">
+            Mean Wind Speed (km/h) <input type="text" name="mean_wind_speed" class="mb-1 w-100" value="0"><br>
+          </div>
+        </div>
+        <div style="width: 45%;">
+          Max Wind Speed (km/h) <input type="text" name="max_wind_speed" class="mb-1 w-100" value="0"><br>
+        </div>
+        <h5 class="pt-4 text-success">Location</h5>
+        <div class="d-flex justify-content-between">
+          <div style="width: 45%;">
+            Dwelling Type <br>
+            <select name="dwelling_type" class="mb-1 w-100">
+              <option v-for="dwelling_type of dwelling_types" :value="dwelling_type">[[ dwelling_type ]]</option>
+            </select>
+          </div>
+          <div style="width: 45%;">
+            Estate / Town <br>
+            <select name="estate" class="mb-1 w-100">
+              <option v-for="estate of estates" :value="estate">[[ estate ]]</option>
+            </select>
+          </div>
+        </div>
+        <div style="width: 45%;">
+          Region <br>
+          <select name="region" class="mb-1 w-100">
+            <option v-for="region of regions" :value="region">[[ region ]]</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
+
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        months: ['Janurary', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        dwelling_types: ['1-room / 2-room', '3-room', '4-room', '5-room / Executive', 'Landed Property', 'Private Apartment / Condominium', 'Private Housing', 'Public Housing'],
+        estates: ['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah', 'Bukit Panjang', 'Bukit Timah', 'Central Region', 'Changi', 'Chua Chu Kang', 'Clementi', 'Downtown', 'East Region', 
+                  'Geylang', 'Hougang', 'Jurong East', 'Jurong West', 'Kallang', 'Mandai', 'Marine Parade', 'Museum', 'Newton', 'North East Region', 'North Region', 'Novena', 'Orchard', 'Outram', 
+                  'Pasir Ris', 'Paya Lebar', 'Pioneer', 'Punggol', 'Queenstown', 'River Valley', 'Rochor', 'Seletar', 'Sembawang', 'Sengkang', 'Serangoon', 'Singapore River', 'Southern Islands', 
+                  'Sungei Kadut', 'Tampines', 'Tanglin', 'Toa Payoh', 'West Region', 'Woodlands', 'Yishun'],
+        regions: ['Central Region', 'East Region', 'North East Region', 'North Region', 'West Region']
+      }
+    },
+    delimiters: ['[[',']]']
+  })
+  app.mount('#app')
+</script>
+
+<style>
+  * {
+    font-family: 'Poppins', Helvetica, Arial, sans-serif;
+  }
+
+  select{
+    color: #7F7F7F;
+    padding: 5px;
+  }
+
+  option:not(:checked) { 
+    color: #7F7F7F;
+  }
+</style>
