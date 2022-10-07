@@ -129,9 +129,10 @@ def predict():
 
     electricity_predict = [electricity_predict]
     predicted_electricity_values = model.predict(electricity_predict)
-    print(predicted_electricity_values)[0]
 
-    return {}
+    return jsonify({
+        "predicted_electricity_values": predicted_electricity_values[0]
+    }), 200
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
