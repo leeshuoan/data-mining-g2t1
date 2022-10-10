@@ -14,8 +14,6 @@ def predict():
     year = request.args.get('year')
     month = request.args.get('month')
     daily_rainfall = request.args.get('daily_rainfall')
-    rainfall_30m = request.args.get('30m_rainfall')
-    rainfall_60m = request.args.get('60m_rainfall')
     rainfall_120m = request.args.get('120m_rainfall')
     mean_temperature = request.args.get('mean_temperature')
     max_temperature = request.args.get('max_temperature')
@@ -25,112 +23,127 @@ def predict():
     dwelling_type = request.args.get('dwelling_type')
     estate = request.args.get('estate')
     region = request.args.get('region')
-    model = request.args.get('model')
+    model_name = request.args.get('model')
 
     model_dict = {
-        "Ensemble": "ensemble_gbr.pkl",
         "SkLearn Linear Regression": "sklearn_linear_regression_(ohe).pkl",
+        "Ridge Regression": "ridge.pkl",
+        "Lasso Regression": "lasso.pkl",
+        "Elastic Net": "elasticnet.pkl",
+        "Stochastic Gradient Descent Regressor": "sgdRegressor.pkl",
+        "Support Vector Regression": "svr.pkl",
+        "K-Nearest Neighbors Regressor": "knn.pkl",
+        "Extra Tree Regressor": "extraTree.pkl",
+        "Random Forest Regressor": "randomForestReg.pkl",
+        "Stacking Regressor": "stacking2.pkl",
+        "Voting Regressor": "votingModel2.pkl",
+        "Gradient Boosting Regressor": "ensemble_gbr.pkl",
     }
     dwelling_type_dict = {
-        '1-room / 2-room': 11,
-        '3-room': 12,
-        '4-room': 13, 
-        '5-room / Executive': 14,
-        'Landed Property': 15, 
-        'Private Apartment / Condominium': 16,
-        'Private Housing': 17,
-        'Public Housing': 18
+        '1-room / 2-room': 8,
+        '3-room': 9,
+        '4-room': 10, 
+        '5-room / Executive': 11,
+        'Landed Property': 12, 
+        'Private Apartment / Condominium': 13,
+        'Private Housing': 14,
+        'Public Housing': 15
     }
     month_dict ={
-        'January': 19,
-        'February': 20,
-        'March': 21,
-        'April': 22,
-        'May': 23,
-        'June': 24,
-        'July': 25,
-        'August': 26,
-        'September': 27,
-        'October': 28,
-        'November': 29,
-        'December': 30
+        'January': 16,
+        'February': 17,
+        'March': 18,
+        'April': 19,
+        'May': 20,
+        'June': 21,
+        'July': 22,
+        'August': 23,
+        'September': 24,
+        'October': 25,
+        'November': 26,
+        'December': 27
     }
     estate_dict = {
-        'Ang Mo Kio': 31,
-        'Bedok': 32,
-        'Bishan': 33,
-        'Bukit Batok': 34,
-        'Bukit Merah': 35,
-        'Bukit Panjang': 36,
-        'Bukit Timah': 37,
-        'Central Region': 38,
-        'Changi': 39,
-        'Choa Chu Kang': 40,
-        'Clementi': 41,
-        'Downtown': 42,
-        'East Region': 43,
-        'Geylang': 44,
-        'Hougang': 45,
-        'Jurong East': 46,
-        'Jurong West': 47,
-        'Kallang': 48,
-        'Mandai': 49,
-        'Marine Parade': 50,
-        'Museum': 51,
-        'Newton': 52,
-        'North East Region': 53,
-        'North Region': 54,
-        'Novena': 55,
-        'Orchard': 56,
-        'Outram': 57,
-        'Pasir Ris': 58,
-        'Paya Lebar': 59,
-        'Pioneer': 60,
-        'Punggol': 61,
-        'Queenstown': 62,
-        'River Valley': 63,
-        'Rochor': 64,
-        'Seletar': 65,
-        'Sembawang': 66,
-        'Sengkang': 67,
-        'Serangoon': 68,
-        'Singapore River': 69,
-        'Southern Islands': 70,
-        'Sungei Kadut': 71,
-        'Tampines': 72,
-        'Tanglin': 73,
-        'Toa Payoh': 74,
-        'West Region': 75,
-        'Woodlands': 76,
-        'Yishun': 77
+        'Ang Mo Kio': 28,
+        'Bedok': 29,
+        'Bishan': 30,
+        'Bukit Batok': 31,
+        'Bukit Merah': 32,
+        'Bukit Panjang': 33,
+        'Bukit Timah': 34,
+        'Central Region': 35,
+        'Changi': 36,
+        'Choa Chu Kang': 37,
+        'Clementi': 38,
+        'Downtown': 39,
+        'East Region': 40,
+        'Geylang': 41,
+        'Hougang': 42,
+        'Jurong East': 43,
+        'Jurong West': 44,
+        'Kallang': 45,
+        'Mandai': 46,
+        'Marine Parade': 47,
+        'Museum': 48,
+        'Newton': 49,
+        'North East Region': 50,
+        'North Region': 51,
+        'Novena': 52,
+        'Orchard': 53,
+        'Outram': 54,
+        'Pasir Ris': 55,
+        'Paya Lebar': 56,
+        'Pioneer': 57,
+        'Punggol': 58,
+        'Queenstown': 59,
+        'River Valley': 60,
+        'Rochor': 61,
+        'Seletar': 62,
+        'Sembawang': 63,
+        'Sengkang': 64,
+        'Serangoon': 65,
+        'Singapore River': 66,
+        'Southern Islands': 67,
+        'Sungei Kadut': 68,
+        'Tampines': 69,
+        'Tanglin': 70,
+        'Toa Payoh': 71,
+        'West Region': 72,
+        'Woodlands': 73,
+        'Yishun': 74
     }
     region_dict = {
-        'Central': 78,
-        'East': 79,
-        'North East': 80,
-        'North': 81,
-        'West': 82,
+        'Central': 75,
+        'East': 76,
+        'North East': 77,
+        'North': 78,
+        'West': 79,
     }
 
-    model = joblib.load("models/" + model_dict[model])
+    model = joblib.load("models/" + model_dict[model_name])
     electricity_predict = [
-        year, daily_rainfall, rainfall_30m, rainfall_60m, rainfall_120m, mean_temperature, max_temperature, min_temperature, mean_wind_speed, max_wind_speed, 
+        float(year), float(daily_rainfall), float(rainfall_120m), float(mean_temperature), float(max_temperature), float(min_temperature), float(mean_wind_speed), float(max_wind_speed), 
         0, 0, 0, 0, 0, 0, 0, 0, # dwelling_types
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, # months
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, # estates
         0, 0, 0, 0, 0 # regions
     ]
-    print(electricity_predict)
 
+    print(dwelling_type_dict[dwelling_type])
     electricity_predict[dwelling_type_dict[dwelling_type]] = 1
+    print(month_dict[month])
     electricity_predict[month_dict[month]] = 1
+    print(estate_dict[estate])
     electricity_predict[estate_dict[estate]] = 1
+    print(region_dict[region])
     electricity_predict[region_dict[region]] = 1
-
+    
+    print(electricity_predict)
     electricity_predict = [electricity_predict]
     predicted_electricity_values = model.predict(electricity_predict)
 
     return jsonify({
+        "classifier": model_name,
         "predicted_electricity_values": predicted_electricity_values[0]
     }), 200
 

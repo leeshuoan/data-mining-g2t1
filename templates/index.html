@@ -40,15 +40,6 @@
             <input type="text" name="daily_rainfall" class="mb-1 w-100" value="0" v-model="daily_rainfall"><br>
           </div>
           <div style="width: 45%;">
-            Highest 30min rainfall (mm) <br>
-            <input type="text" name="30m_rainfall" class="mb-1 w-100" value="0" v-model="highest_30min_rainfall"><br>
-          </div>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div style="width: 45%;">
-            Highest 60min rainfall (mm) <input type="text" name="60m_rainfall" class="mb-1 w-100" value="0" v-model="highest_60min_rainfall"><br>
-          </div>
-          <div style="width: 45%;">
             Highest 120min rainfall (mm) <input type="text" name="120m_rainfall" class="mb-1 w-100" value="0" v-model="highest_120min_rainfall"><br>
           </div>
         </div>
@@ -124,12 +115,11 @@
           'Pasir Ris', 'Paya Lebar', 'Pioneer', 'Punggol', 'Queenstown', 'River Valley', 'Rochor', 'Seletar', 'Sembawang', 'Sengkang', 'Serangoon', 'Singapore River', 'Southern Islands',
           'Sungei Kadut', 'Tampines', 'Tanglin', 'Toa Payoh', 'West Region', 'Woodlands', 'Yishun'],
         regions: ['Central', 'East', 'North East', 'North', 'West'],
-        models: ['Ensemble', 'SkLearn Linear Regression'],
+        models: ['SkLearn Linear Regression', 'Ridge Regression', 'Lasso Regression', 'Elastic Net', 'Stochastic Gradient Descent Regressor', 'Support Vector Regression', 'K-Nearest Neighbors Regressor', 
+                'Extra Tree Regressor', 'Random Forest Regressor', 'Stacking Regressor', 'Voting Regressor', 'Gradient Boosting Regressor'],
         year: '2022',
         month: 'January',
         daily_rainfall: '0',
-        highest_30min_rainfall: '0',
-        highest_60min_rainfall: '0',
         highest_120min_rainfall: '0',
         mean_temperature: '0',
         max_temperature: '0',
@@ -139,7 +129,7 @@
         dwelling_type: '1-room / 2-room',
         estate: 'Ang Mo Kio',
         region: 'Central',
-        model: 'Ensemble',
+        model: 'SkLearn Linear Regression',
       }
     },
     methods: {
@@ -150,8 +140,6 @@
             'day': this.day,
             'year': this.year,
             'daily_rainfall': this.daily_rainfall,
-            '30m_rainfall': this.highest_30min_rainfall,
-            '60m_rainfall': this.highest_60min_rainfall,
             '120m_rainfall': this.highest_120min_rainfall,
             'mean_temperature': this.mean_temperature,
             'max_temperature': this.max_temperature,
@@ -166,6 +154,7 @@
         })
           .then(response => {
             console.log(response.data)
+            alert("Using " + response.data["classifier"] + ", the electricity bill is predicted to be $" + response.data["predicted_electricity_values"].toFixed(2))
           })
           .catch(error => {
             console.log(error)
