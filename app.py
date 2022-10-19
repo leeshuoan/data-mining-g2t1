@@ -33,17 +33,17 @@ def predict():
     model_name = request.args.get('model')
 
     model_dict = {
-        "SkLearn Linear Regression": "sklearn_linear_regression_(ohe).pkl",
+        "SkLearn Linear Regression": "lr_ohe.pkl",
         "Ridge Regression": "ridge.pkl",
         "Lasso Regression": "lasso.pkl",
         "Elastic Net": "elasticnet.pkl",
         "Stochastic Gradient Descent Regressor": "sgdRegressor.pkl",
         "Support Vector Regression": "svr.pkl",
         "K-Nearest Neighbors Regressor": "knn.pkl",
-        "Extra Tree Regressor": "extraTree.pkl",
-        "Random Forest Regressor": "randomForestReg.pkl",
-        "Stacking Regressor": "stacking2.pkl",
-        "Voting Regressor": "votingModel2.pkl",
+        "Extra Tree Regressor": "ensemble_etr.pkl",
+        "Random Forest Regressor": "ensemble_rfr.pkl",
+        "Stacking Regressor": "second_sr.pkl",
+        "Voting Regressor": "voting_reg_v2.pkl",
         "Gradient Boosting Regressor": "ensemble_gbr.pkl",
     }
     month_dict = {

@@ -154,7 +154,7 @@
         })
           .then(response => {
             console.log(response.data)
-            alert("Using " + response.data["classifier"] + ", the electricity bill is predicted to be $" + response.data["predicted_value"].toFixed(2))
+            alert("Using " + response.data["classifier"] + ", the predicted electricity usage is " + response.data["predicted_value"].toFixed(2) + "kWh.")
           })
           .catch(error => {
             console.log(error)
