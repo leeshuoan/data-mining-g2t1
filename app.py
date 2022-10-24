@@ -2,6 +2,8 @@ from flask import Flask, render_template, jsonify, flash, request
 from flask_cors import CORS
 import pandas as pd
 import pickle
+import tensorflow as tf
+from tensorflow import keras
 
 app = Flask(__name__)
 CORS(app)
@@ -45,6 +47,14 @@ def predict():
         "Stacking Regressor": "second_sr.pkl",
         "Voting Regressor": "voting_reg_v2.pkl",
         "Gradient Boosting Regressor": "ensemble_gbr.pkl",
+        "DNN (eLU)": "DNN (eLU)",
+        "DNN (GeLU)": "DNN (GeLU)",
+        "DNN (Leaky ReLU)": "DNN (Leaky ReLU)",
+        "DNN (ReLU)": "DNN (ReLU)",
+        "DNN (SeLU)": "DNN (SeLU)",
+        "DNN (Sigmoid)": "DNN (Sigmoid)",
+        "DNN (Swish)": "DNN (Swish)",
+        "DNN (Tanh)": "DNN (Tanh)"
     }
     month_dict = {
         'January': 1, 'February': 2, 'March': 3,'April': 4, 
@@ -54,16 +64,22 @@ def predict():
     region_dict = {
         "Central": "Central Region", "East": "East Region", "North East": "North East Region", "North": "North Region", "West": "West Region"
     }
-
-    model = pickle.load(open("models/" + model_dict[model_name], 'rb'))
+    if "DNN" in model_name:
+        model = tf.keras.models.load_model("models/" + model_dict[model_name])
+    else:
+        model = pickle.load(open("models/" + model_dict[model_name], 'rb'))
     df_one_hot_encoded.loc[len(df_one_hot_encoded.index)] = [dwelling_type, int(year), int(month_dict[month]), region_dict[region], estate, float(daily_rainfall), float(rainfall_120m), float(mean_temperature), float(max_temperature), float(min_temperature), float(mean_wind_speed), float(max_wind_speed)] 
     features_df = pd.get_dummies(df_one_hot_encoded, columns=['Dwelling Type', 'Month', 'Towns', 'Region'])
-    for column in features_df.columns:
-        features_df[column] = (features_df[column] - features_df[column].min()) / (features_df[column].max() - features_df[column].min())
+    if "DNN" not in model_name:
+        for column in features_df.columns:
+                features_df[column] = (features_df[column] - features_df[column].min()) / (features_df[column].max() - features_df[column].min())
     unseen = features_df.values[-1].tolist()
     electricity_predict = [unseen]
-    predicted_value = model.predict(electricity_predict)
-
+    if "DNN" in model_name:
+        predicted_value = model.predict(electricity_predict).flatten()
+    else:
+        predicted_value = model.predict(electricity_predict)
+    print(predicted_value)
     return jsonify({
         "classifier": model_name,
         "predicted_value": predicted_value[0]

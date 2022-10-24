@@ -112,14 +112,14 @@
     data() {
       return {
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        dwelling_types: ['1-room / 2-room', '3-room', '4-room', '5-room / Executive', 'Landed Properties', 'Private Apartment / Condominium', 'Private Housing', 'Public Housing'],
+        dwelling_types: ['1-room / 2-room', '3-room', '4-room', '5-room and Executive', 'Landed Properties', 'Private Apartment / Condominium', 'Private Housing', 'Public Housing'],
         estates: ['Ang Mo Kio', 'Bedok', 'Bishan', 'Bukit Batok', 'Bukit Merah', 'Bukit Panjang', 'Bukit Timah', 'Central Region', 'Changi', 'Chua Chu Kang', 'Clementi', 'Downtown', 'East Region',
           'Geylang', 'Hougang', 'Jurong East', 'Jurong West', 'Kallang', 'Mandai', 'Marine Parade', 'Museum', 'Newton', 'North East Region', 'North Region', 'Novena', 'Orchard', 'Outram',
           'Pasir Ris', 'Paya Lebar', 'Pioneer', 'Punggol', 'Queenstown', 'River Valley', 'Rochor', 'Seletar', 'Sembawang', 'Sengkang', 'Serangoon', 'Singapore River', 'Southern Islands',
           'Sungei Kadut', 'Tampines', 'Tanglin', 'Toa Payoh', 'West Region', 'Woodlands', 'Yishun'],
         regions: ['Central', 'East', 'North East', 'North', 'West'],
         models: ['SkLearn Linear Regression', 'Ridge Regression', 'Lasso Regression', 'Elastic Net', 'Stochastic Gradient Descent Regressor', 'Support Vector Regression', 'K-Nearest Neighbors Regressor', 
-                'Extra Tree Regressor', 'Random Forest Regressor', 'Stacking Regressor', 'Voting Regressor', 'Gradient Boosting Regressor'],
+                'Extra Tree Regressor', 'Random Forest Regressor', 'Stacking Regressor', 'Voting Regressor', 'Gradient Boosting Regressor', 'DNN (eLU)', 'DNN (GeLU)', 'DNN (Leaky ReLU)', 'DNN (ReLU)', 'DNN (SeLU)', 'DNN (Sigmoid)', 'DNN (Swish)', 'DNN (Tanh)'],
         year: '2022',
         month: 'January',
         daily_rainfall: '0',
@@ -131,7 +131,7 @@
         max_wind_speed: '0',
         dwelling_type: '1-room / 2-room',
         estate: 'Ang Mo Kio',
-        region: 'Central',
+        region: 'North East',
         model: 'SkLearn Linear Regression',
       }
     },
