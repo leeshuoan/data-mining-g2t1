@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, flash, request
 from flask_cors import CORS
 import pandas as pd
-import joblib
+import pickle
 
 app = Flask(__name__)
 CORS(app)
@@ -55,12 +55,11 @@ def predict():
         "Central": "Central Region", "East": "East Region", "North East": "North East Region", "North": "North Region", "West": "West Region"
     }
 
-    model = joblib.load("models/" + model_dict[model_name])
+    model = pickle.load(open("models/" + model_dict[model_name], 'rb'))
     df_one_hot_encoded.loc[len(df_one_hot_encoded.index)] = [dwelling_type, int(year), int(month_dict[month]), region_dict[region], estate, float(daily_rainfall), float(rainfall_120m), float(mean_temperature), float(max_temperature), float(min_temperature), float(mean_wind_speed), float(max_wind_speed)] 
-    features_df = pd.get_dummies(df_one_hot_encoded, columns=['Dwelling Type', 'Towns', 'Region', 'Month'])
+    features_df = pd.get_dummies(df_one_hot_encoded, columns=['Dwelling Type', 'Month', 'Towns', 'Region'])
     for column in features_df.columns:
         features_df[column] = (features_df[column] - features_df[column].min()) / (features_df[column].max() - features_df[column].min())
-
     unseen = features_df.values[-1].tolist()
     electricity_predict = [unseen]
     predicted_value = model.predict(electricity_predict)
