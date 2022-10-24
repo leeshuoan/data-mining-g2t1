@@ -79,7 +79,7 @@ def predict():
         predicted_value = model.predict(electricity_predict).flatten()
     else:
         predicted_value = model.predict(electricity_predict)
-    print(predicted_value)
+    #print(predicted_value)
     return jsonify({
         "classifier": model_name,
         "predicted_value": predicted_value[0]
