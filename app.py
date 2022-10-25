@@ -1,9 +1,9 @@
-from flask import Flask, render_template, jsonify, flash, request
+import pickle
+from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 import pandas as pd
-import pickle
 import tensorflow as tf
-from tensorflow import keras
+# from tensorflow import keras
 
 app = Flask(__name__)
 CORS(app)
@@ -47,14 +47,14 @@ def predict():
         "Stacking Regressor": "second_sr.pkl",
         "Voting Regressor": "voting_reg_v2.pkl",
         "Gradient Boosting Regressor": "ensemble_gbr.pkl",
-        "DNN (eLU)": "DNN (eLU)",
-        "DNN (GeLU)": "DNN (GeLU)",
-        "DNN (Leaky ReLU)": "DNN (Leaky ReLU)",
-        "DNN (ReLU)": "DNN (ReLU)",
-        "DNN (SeLU)": "DNN (SeLU)",
-        "DNN (Sigmoid)": "DNN (Sigmoid)",
-        "DNN (Swish)": "DNN (Swish)",
-        "DNN (Tanh)": "DNN (Tanh)"
+        "DNN eLU": "DNN (eLU)",
+        "DNN GeLU": "DNN (GeLU)",
+        "DNN Leaky ReLU": "DNN (Leaky ReLU)",
+        "DNN ReLU": "DNN (ReLU)",
+        "DNN SeLU": "DNN (SeLU)",
+        "DNN Sigmoid": "DNN (Sigmoid)",
+        "DNN Swish": "DNN (Swish)",
+        "DNN Tanh": "DNN (Tanh)"
     }
     month_dict = {
         'January': 1, 'February': 2, 'March': 3,'April': 4, 
@@ -79,10 +79,10 @@ def predict():
         predicted_value = model.predict(electricity_predict).flatten()
     else:
         predicted_value = model.predict(electricity_predict)
-    #print(predicted_value)
+    predicted_value = float(predicted_value[0])     
     return jsonify({
         "classifier": model_name,
-        "predicted_value": predicted_value[0]
+        "predicted_value": predicted_value
     }), 200
 
 if __name__ == '__main__':
