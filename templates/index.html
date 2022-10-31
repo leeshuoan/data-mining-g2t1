@@ -43,27 +43,33 @@
             <input type="text" name="daily_rainfall" class="mb-1 w-100" value="0" v-model="daily_rainfall"><br>
           </div>
           <div style="width: 45%;">
-            Highest 120min rainfall (mm) <input type="text" name="120m_rainfall" class="mb-1 w-100" value="0" v-model="highest_120min_rainfall"><br>
+            Highest 120min rainfall (mm) <input type="text" name="120m_rainfall" class="mb-1 w-100" value="0"
+              v-model="highest_120min_rainfall"><br>
           </div>
         </div>
         <div class="d-flex justify-content-between">
           <div style="width: 45%;">
-            Mean Temperature (°C) <input type="text" name="mean_temperature" class="mb-1 w-100" value="0" v-model="mean_temperature"><br>
+            Mean Temperature (°C) <input type="text" name="mean_temperature" class="mb-1 w-100" value="0"
+              v-model="mean_temperature"><br>
           </div>
           <div style="width: 45%;">
-            Maximum Temperature (°C) <input type="text" name="max_temperature" class="mb-1 w-100" value="0" v-model="max_temperature"><br>
+            Maximum Temperature (°C) <input type="text" name="max_temperature" class="mb-1 w-100" value="0"
+              v-model="max_temperature"><br>
           </div>
         </div>
         <div class="d-flex justify-content-between">
           <div style="width: 45%;">
-            Minimum Temperature (°C) <input type="text" name="min_temperature" class="mb-1 w-100" value="0" v-model="min_temperature"><br>
+            Minimum Temperature (°C) <input type="text" name="min_temperature" class="mb-1 w-100" value="0"
+              v-model="min_temperature"><br>
           </div>
           <div style="width: 45%;">
-            Mean Wind Speed (km/h) <input type="text" name="mean_wind_speed" class="mb-1 w-100" value="0" v-model="mean_wind_speed"><br>
+            Mean Wind Speed (km/h) <input type="text" name="mean_wind_speed" class="mb-1 w-100" value="0"
+              v-model="mean_wind_speed"><br>
           </div>
         </div>
         <div style="width: 45%;">
-          Max Wind Speed (km/h) <input type="text" name="max_wind_speed" class="mb-1 w-100" value="0" v-model="max_wind_speed"><br>
+          Max Wind Speed (km/h) <input type="text" name="max_wind_speed" class="mb-1 w-100" value="0"
+            v-model="max_wind_speed"><br>
         </div>
         <h5 class="pt-4 text-success">Location</h5>
         <div class="d-flex justify-content-between">
@@ -75,14 +81,14 @@
           </div>
           <div style="width: 45%;">
             Estate / Town <br>
-            <select name="estate" class="mb-1 w-100" v-model="estate">
+            <select name="estate" class="mb-1 w-100" v-model="estate" @change="updateRegion()">
               <option v-for="estate of estates" :value="estate">[[ estate ]]</option>
             </select>
           </div>
         </div>
         <div style="width: 45%;">
           Region <br>
-          <select name="region" class="mb-1 w-100" v-model="region">
+          <select name="region" class="mb-1 w-100" v-model="region" disabled>
             <option v-for="region of regions" :value="region">[[ region ]]</option>
           </select>
         </div>
@@ -118,8 +124,22 @@
           'Pasir Ris', 'Paya Lebar', 'Pioneer', 'Punggol', 'Queenstown', 'River Valley', 'Rochor', 'Seletar', 'Sembawang', 'Sengkang', 'Serangoon', 'Singapore River', 'Southern Islands',
           'Sungei Kadut', 'Tampines', 'Tanglin', 'Toa Payoh', 'West Region', 'Woodlands', 'Yishun'],
         regions: ['Central', 'East', 'North East', 'North', 'West'],
-        models: ['SkLearn Linear Regression', 'Ridge Regression', 'Lasso Regression', 'Elastic Net', 'Stochastic Gradient Descent Regressor', 'Support Vector Regression', 'K-Nearest Neighbors Regressor', 
-                'Extra Tree Regressor', 'Random Forest Regressor', 'Stacking Regressor', 'Voting Regressor', 'Gradient Boosting Regressor', 'DNN eLU', 'DNN GeLU', 'DNN Leaky ReLU', 'DNN ReLU', 'DNN SeLU', 'DNN Sigmoid', 'DNN Swish', 'DNN Tanh'],
+        region_map: {
+          'Bishan': 'Central', 'Bukit Merah': 'Central', 'Central Region': 'Central', 'Geylang': 'Central',
+          'Kalling': 'Central', "Marine Parade": 'Central', 'Novena': 'Central', 'Outram': 'Central',
+          'Queenstown': 'Central', 'Rochor': 'Central', 'Toa Payoh': 'Central', 'Bukit Timah': 'Central',
+          'Downtown': 'Central', 'Tanglin': 'Central', 'Museum': 'Central', 'Newton': 'Central',
+          'Orchard': 'Central', 'River Valley': 'Central', 'Singapore River': 'Central', 'Southern Islands': 'Central',
+          'Bedok': 'East', 'East Region': 'East', 'Pasir Ris': 'East', 'Tampines': 'East',
+          'Changi': 'East', 'Paya Lebar': 'East', 'Ang Mo Kio': 'North East', 'North East Region': 'North East',
+          'Serangoon': 'North East', 'Senkang': 'North East', 'Punggol': 'North East', 'Seletar': 'North East',
+          'North Region': 'North', 'Woodlands': 'North', 'Yishun': 'North', 'Sembawang': 'North',
+          'Mandai': 'North', 'Sungei Kadut': 'North', 'Bukit Batok': 'West', 'Chua Chu Kang': 'West',
+          'Clementi': 'West', 'Jurong East': 'West', 'Jurong West': 'West', 'West Region': 'West',
+          'Bukit Panjang': 'West', 'Pioneer': 'West',
+        },
+        models: ['SkLearn Linear Regression', 'Ridge Regression', 'Lasso Regression', 'Elastic Net', 'Stochastic Gradient Descent Regressor', 'Support Vector Regression', 'K-Nearest Neighbors Regressor',
+          'Extra Tree Regressor', 'Random Forest Regressor', 'Stacking Regressor', 'Voting Regressor', 'Gradient Boosting Regressor', 'DNN eLU', 'DNN GeLU', 'DNN Leaky ReLU', 'DNN ReLU', 'DNN SeLU', 'DNN Sigmoid', 'DNN Swish', 'DNN Tanh'],
         year: '2022',
         month: 'January',
         daily_rainfall: '0',
@@ -136,6 +156,9 @@
       }
     },
     methods: {
+      updateRegion(){
+        this.region = this.region_map[this.estate]
+      },
       predict() {
         axios.get('/predict', {
           params: {
