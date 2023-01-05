@@ -1,4 +1,4 @@
-# IS424 Data Mining and Analytics Project  
+# IS424 Data Mining and Analytics Project [Project Grade: A+]
 ## Project Overview
 Electricity consumption predictor that predicts electrcity consumption (kWh) for the specified month based on weather, region, and dwelling type inputs. Prediction models include 8 Deep Neural Nets, 7 Regression models, 3 Ensemble models and 1 K-Nearest Neighbors model
 ## Datasets
